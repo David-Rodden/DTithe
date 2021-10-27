@@ -18,6 +18,6 @@ public class ShouldTend extends TreeTask {
 
     @Override
     public boolean validate() {
-        return Objects.stream().filter(p -> record.getNotedPosition(p.tile())).name(plantPattern).action("Water", "Harvest").isNotEmpty();
+        return Objects.stream().within(20).filter(p -> record.getNotedPosition(p.tile())).name(plantPattern).action("Water", "Harvest").isNotEmpty();
     }
 }

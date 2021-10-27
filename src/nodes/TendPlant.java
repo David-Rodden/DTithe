@@ -25,9 +25,9 @@ public class TendPlant extends WalkableTask {
     @Override
     public int execute() {
         // Find any plants requiring water or harvesting, and prioritize by time elapsed since tended for
-        Objects.stream().filter(p -> record.getNotedPosition(p.tile())).action("Water", "Harvest").max(Comparator.comparing(record::getElapsed)).ifPresent(p -> {
+        Objects.stream().within(20).filter(p -> record.getNotedPosition(p.tile())).action("Water", "Harvest").max(Comparator.comparing(record::getElapsed)).ifPresent(p -> {
             if (walkToOrTurn(p)) return;
-            p.interact(c -> c.getAction().matches("Water|Harvest"), false);
+            if (!p.interact(c -> c.getAction().matches("Water|Harvest"), false)) return;
             Condition.wait(() -> Players.local().animation() != -1, Random.nextInt(500, 800), 1);
             final Tile focusedTile = p.tile();
             // Once we tend to our plant, make sure to reset its timer so other plants can be prioritized

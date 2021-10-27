@@ -19,9 +19,9 @@ public class DepositFruit extends WalkableTask {
 
     @Override
     public int execute() {
-        Objects.stream().name("Sack").action("Deposit").findAny().ifPresent(s -> {
+        Objects.stream().within(20).name("Sack").action("Deposit").findAny().ifPresent(s -> {
             if (walkToOrTurn(s)) return;
-            s.interact("Deposit");
+            if(!s.interact("Deposit"))  return;
             Condition.wait(() -> Inventory.stream().name(fruitPattern).isEmpty(), 1000, 5);
         });
         return super.execute();

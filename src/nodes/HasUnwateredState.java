@@ -18,7 +18,7 @@ public class HasUnwateredState extends TreeTask {
 
     @Override
     public boolean validate() {
-        final boolean toWater = Objects.stream().name(plantPattern).action("Water").filter(p -> record.getNotedPosition(p.tile())).isNotEmpty();
+        final boolean toWater = Objects.stream().within(20).name(plantPattern).action("Water").filter(p -> record.getNotedPosition(p.tile())).isNotEmpty();
         System.out.println("Needs to water: " + toWater);
         return toWater;
     }

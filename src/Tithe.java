@@ -47,7 +47,7 @@ public class Tithe extends TreeScript {
         cleanupExecutor = Executors.newSingleThreadScheduledExecutor();
         cleanupSchedule = cleanupExecutor.scheduleAtFixedRate(() -> {
             if (Players.local().animation() != -1) return;
-            Objects.stream().filter(p -> {
+            Objects.stream().within(20).filter(p -> {
                 final Tile focusedTile = p.tile();
                 return getNotedPosition(focusedTile) && focusedTile.distance() >= 2;
             }).name("Tithe patch").forEach(p -> removeNotedPosition(p.tile()));

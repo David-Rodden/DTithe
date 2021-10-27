@@ -20,12 +20,12 @@ public class FillWater extends WalkableTask {
     @Override
     public int execute() {
         Inventory.stream().name("Gricoller's can", "Watering can").findAny().ifPresent(c -> {
-            Objects.stream().name("Water Barrel").findAny().ifPresent(b -> {
+            Objects.stream().within(20).name("Water Barrel").findAny().ifPresent(b -> {
                 if (walkToOrTurn(b)) return;
-                c.interact("Use");
+                if (!c.interact("Use")) return;
                 Condition.wait(() -> Inventory.selectedItemIndex() == c.inventoryIndex(), 500, 3);
                 if (Inventory.selectedItemIndex() != c.inventoryIndex()) return;
-                b.interact("Use");
+                if(!b.interact("Use"))  return;
                 Condition.wait(() -> Inventory.stream().name("Watering can").isEmpty(), 500, 10);
             });
         });

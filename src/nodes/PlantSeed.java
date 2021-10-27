@@ -35,15 +35,15 @@ public class PlantSeed extends TreeTask {
             // Find any patch within our vicinity that is closest to our cluster to place our next seed
             Objects.stream().within(15).name("Tithe patch").min(Comparator.comparing(o -> clusterAverage.tile().distanceTo(o.tile()))).ifPresent(p -> {
                 if (!p.inViewport()) Camera.turnTo(p);
-                s.interact("Use");
+                if (!s.interact("Use")) return;
                 Condition.wait(() -> Inventory.selectedItemIndex() == s.inventoryIndex(), 500, 3);
                 if (Inventory.selectedItemIndex() != s.inventoryIndex()) return;
-                p.interact("Use");
+                if (!p.interact("Use")) return;
                 final Tile seedlingTile = p.tile();
                 Condition.wait(() -> Players.local().animation() != -1, 400, 10);
                 // Add our position and initialize its timer to track progress
                 if (Players.local().animation() != -1) record.addNotedPosition(seedlingTile);
-                Condition.wait(() -> Objects.stream().name("Tithe patch").at(seedlingTile).isEmpty(), Random.nextInt(500, 800), 3);
+                Condition.wait(() -> Objects.stream().within(20).name("Tithe patch").at(seedlingTile).isEmpty(), Random.nextInt(500, 800), 3);
             });
         });
         return super.execute();

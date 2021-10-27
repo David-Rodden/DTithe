@@ -46,21 +46,21 @@ public class FetchSeeds extends WalkableTask {
         } else if (lobbyArea.contains(Players.local())) {
             // Interact with seed table until options dialogue appears
             Objects.stream().within(10).name("Seed table").action("Search").findAny().ifPresent(s -> {
-                s.interact("Search");
+                if(!s.interact("Search"))   return;
                 Condition.wait(() -> Chat.stream().textContains("What kind of crop will you grow?").isNotEmpty(), Random.nextInt(800, 1200), 3);
             });
             return super.execute();
         }
         // Tithe is instance area, so if we cannot find a depositable sack for our fruit
         // Assume we are not in tithe farm - execute webwalk to lobby area
-        if (Objects.stream().name("Sack").action("Deposit").reachable().isEmpty()) {
+        if (Objects.stream().within(20).name("Sack").action("Deposit").reachable().isEmpty()) {
             Movement.walkTo(lobbyArea.getRandomTile());
             return super.execute();
         }
         // Interact with farm door to leave tithe farm to grab appropriate seeds
-        Objects.stream().name("Farm door").action("Open").findAny().ifPresent(d -> {
+        Objects.stream().within(15).name("Farm door").action("Open").findAny().ifPresent(d -> {
             if (walkToOrTurn(d)) return;
-            d.interact("Open");
+            if(!d.interact("Open")) return;
             Condition.wait(() -> lobbyArea.contains(Players.local()), 1500, 3);
         });
         return super.execute();

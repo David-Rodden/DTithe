@@ -17,7 +17,7 @@ public class EnterFarm extends TreeTask {
     @Override
     public int execute() {
         if (!Chat.chatting()) Objects.stream().within(15).name("Farm door").action("Open").findAny().ifPresent(d -> {
-            d.interact("Open");
+            if(!d.interact("Open")) return;
             Condition.wait(() -> Objects.stream().within(10).name("Sack").action("Deposit").reachable().isNotEmpty() || Chat.chatting(), 2000, 4);
         });
         if (Chat.canContinue()) {
