@@ -17,7 +17,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-@ScriptManifest(name = "DTithe", description = "Simple test", version = "0.0.1")
+@ScriptManifest(name = "DTithe", description = "Trains farming at Tithe farm", version = "0.0.1")
 public class Tithe extends TreeScript {
     private ScheduledExecutorService cleanupExecutor;
     private ScheduledFuture<?> cleanupSchedule;
